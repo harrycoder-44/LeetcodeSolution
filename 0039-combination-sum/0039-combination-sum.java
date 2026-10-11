@@ -1,25 +1,27 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] coin, int target) {
-        List<List<Integer>> l = new ArrayList<>();
-        Arrays.sort(coin);
-        find1(0, target, new ArrayList<>(), coin, l);
-        return l;
+        List<List<Integer>> ans = new ArrayList<>();
+
+        findCombinations(0,coin,target,ans,new ArrayList<>());
+
+        return ans;
+        
     }
 
-    public void find1(int idx, int target, List<Integer> ans, int coin[], List<List<Integer>> l) {
-
-        if (target == 0) {
-            l.add(new ArrayList<>(ans));
+    private void findCombinations(int ind,int[] nums,int target,List<List<Integer>> ans, List<Integer> ds){
+        if(ind == nums.length){
+            if(target == 0){
+                ans.add(new ArrayList<>(ds));
+            }
             return;
         }
 
-        for (int i = idx; i < coin.length; i++) {
-
-            if (coin[i] > target) break;
-
-            ans.add(coin[i]);
-            find1(i, target - coin[i], ans, coin, l); 
-            ans.remove(ans.size() - 1);
+        if(nums[ind] <= target){
+            ds.add(nums[ind]);
+            findCombinations(ind,nums,target-nums[ind],ans,ds);
+            ds.remove(ds.size()-1);
         }
+
+        findCombinations(ind+1,nums,target,ans,ds);
     }
 }
