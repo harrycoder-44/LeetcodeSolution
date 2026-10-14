@@ -1,25 +1,30 @@
 class Solution {
-    public List<List<Integer>> permute(int[] arr) {
-        List<List<Integer>> l = new ArrayList<>();
-        find(new ArrayList<>(), arr, l);
+    public List<List<Integer>> permute(int[] nums) {
 
-        return l;
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> ds = new ArrayList<>();
+        boolean[] freq = new boolean[nums.length];
+
+        permutations(nums,ans,ds,freq);
+
+        return ans;
+        
     }
 
-    public static void find(List<Integer> ans, int arr[], List<List<Integer>> l) {
-
-        if (ans.size() == arr.length) {
-            l.add(new ArrayList<>(ans)); 
+    private void permutations(int[] nums,List<List<Integer>> ans,List<Integer> ds,boolean[] freq){
+        if(ds.size() == nums.length){
+            ans.add(new ArrayList<>(ds));
             return;
         }
 
-        for (int i = 0; i < arr.length; i++) {
-            if (!ans.contains(arr[i])) {
-                ans.add(arr[i]);
-                find(ans, arr, l);
-                ans.remove(ans.size() - 1);
+        for(int i=0; i<nums.length; i++){
+            if(!freq[i]){
+                freq[i] = true;
+                ds.add(nums[i]);
+                permutations(nums,ans,ds,freq);
+                ds.remove(ds.size() -1);
+                freq[i] = false;
             }
         }
-        
     }
 }
