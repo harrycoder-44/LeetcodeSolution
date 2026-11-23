@@ -1,33 +1,43 @@
-class Solution { 
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) { 
-        int n1 = nums1.length; 
-        int n2 = nums2.length; 
-        int[] ans = new int[n1 + n2]; 
-        int i=0; 
-        int j=0; 
-        int k=0; 
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        int m = nums1.length;
+        int n = nums2.length;
+
+        int[] merged = new int[m+n];
+
+        int i=0;
+        int j=0;
+        int idx = 0;
+
+        while(i < m && j < n){
+            if(nums1[i] <= nums2[j]){
+                merged[idx++] = nums1[i];
+                i++;
+            }else{
+                merged[idx++] = nums2[j];
+                j++;
+            }
+        }
+
         
-        while(i<n1 && j<n2){ 
-            if(nums1[i] < nums2[j]){ 
-                ans[k++] = nums1[i++]; 
-            }else{ 
-                ans[k++] = nums2[j++]; 
-            } 
-        } 
+        while(i < m){
+            merged[idx++] = nums1[i++];
+        }
+        while(j < n){
+            merged[idx++] = nums2[j++];
+        }
+
+        double ans = 0.0;
+
+        if(merged.length % 2 == 0){
+            int mid = merged.length/2;
+            ans = (merged[mid-1] + merged[mid]) / 2.0;
+        }else{
+            ans = merged[merged.length/2];
+        }
+
+        return ans;
         
-        while(i < n1){ 
-            ans[k++] = nums1[i++]; 
-        } 
-        
-        while(j < n2){ 
-            ans[k++] = nums2[j++]; 
-        } 
-        
-        int n = n1 + n2; 
-        if(n % 2 == 1){ 
-            return ans[n/2]; 
-        } 
-        
-        return ((double) ans[n/2] + (double) ans[n/2-1])/2.0; 
-    } 
+    }
 }
