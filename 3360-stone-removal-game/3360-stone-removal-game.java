@@ -11,16 +11,15 @@ class Solution {
             n -= i;
             cnt++;
 
-            if(n < i-1 && cnt % 2 == 1){
+            if(n < i-1 && cnt%2==1){
                 return true;
             }
-
             if(n < i-1 && cnt % 2 == 0){
                 return false;
             }
         }
-        
 
         return false;
+        
     }
 }
